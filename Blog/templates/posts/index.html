@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<br>
+
+{% for obj in object_list %}
+
+Title: {{obj.title}}<br>
+{{obj.content}}<br>
+{{obj.updated}}<br>
+{{obj.timestamp}}<br>
+<br>
+{% endfor %}
+</body>
+</html>
