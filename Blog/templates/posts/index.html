@@ -8,7 +8,7 @@
 
 {% for obj in object_list %}
 
-Title: {{obj.title}}<br>
+Title: <a href="{{obj.get_absolute_url}}">{{obj.title}}</a><br>
 {{obj.updated}}<br>
 {{obj.timestamp}}<br>
 <br>
