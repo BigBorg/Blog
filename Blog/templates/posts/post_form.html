@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title | default:"Post" }}</title>
-</head>
-<body>
+{% extends "posts/base.html" %}
+{% block content %}
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit">
 </form>
-</body>
-</html>
+{% endblock %}

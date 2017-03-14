@@ -7,5 +7,5 @@ urlpatterns = [
     url("^create", views.post_create, name="create"),
     url("^(?P<id>\d+)/$", views.post_detail, name="detail"),
     url("^(?P<id>\d+)/edit", views.post_update, name="update"),
-    url("^delete", views.post_delete, name="delete"),
+    url("^(?P<id>\d+)/delete", views.post_delete, name="delete"),
 ]

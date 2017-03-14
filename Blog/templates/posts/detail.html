@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title | default:"Post Detail"}}</title>
-</head>
-<body>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{messages.tags}}" {% endif %}>{% if 'html_safe' in message.tags %}{{message|safe}}
-    {% else %}{{message}}{% endif %}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-
+{% extends "posts/base.html" %}
+{% block content %}
 Title: {{obj.title}}<br>
 {{obj.content}}<br>
 {{obj.updated}}<br>
 {{obj.timestamp}}<br>
-</body>
-</html>
+{% endblock %}

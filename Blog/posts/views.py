@@ -34,7 +34,7 @@ def post_list(request):
         "title": "Borg's Blog",
         "object_list": Post.objects.all()
     }
-    return render(request, "posts/index.html", context)
+    return render(request, "posts/post_list.html", context)
 
 
 def post_update(request, id):
@@ -56,4 +56,5 @@ def post_update(request, id):
 def post_delete(request, id):
     obj = get_object_or_404(Post, id=id)
     obj.delete()
+    messages.success(request,"Post deleted")
     return redirect("posts:list")

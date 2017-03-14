@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block head_title%}Blog Index{% endblock %}</title>
+</head>
+<br>
+<body>
+<div class="messages">
+{% include "posts/messages.html" %}
+</div>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
