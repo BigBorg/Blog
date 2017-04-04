@@ -4,7 +4,9 @@
 <div class="row">
   <div class="col-sm-6 col-sm-push-3">
     <div class="thumbnail">
-      <!--<img src="..." alt="...">-->
+      {% if obj.image %}
+      <img src="{{obj.image.url}}">
+      {% endif %}
       <div class="caption">
         <h3><a href="{{obj.get_absolute_url}}">{{obj.title}}</a>&nbsp;<small>{{obj.timestamp|timesince}} ago</small></h3>
         <p>{{obj.content|linebreaks|truncatechars:120}}</p>

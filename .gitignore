@@ -8,6 +8,7 @@ __pycache__/
 .idea/*
 migrations/
 static_cdn/*
+media_cdn/*
 # C extensions
 *.so
 
