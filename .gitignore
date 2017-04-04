@@ -7,7 +7,7 @@ __pycache__/
 *.txt
 .idea/*
 migrations/
-
+static_cdn/*
 # C extensions
 *.so
 

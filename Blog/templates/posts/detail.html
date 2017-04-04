@@ -1,7 +1,7 @@
 {% extends "posts/base.html" %}
 {% block content %}
-Title: {{obj.title}}<br>
-{{obj.content}}<br>
-{{obj.updated}}<br>
-{{obj.timestamp}}<br>
+<div class="col-sm-6 col-sm-push-3">
+    <h1>Title: {{obj.title}}&nbsp;<small>{{obj.timestamp}}</small></h1>
+{{obj.content|linebreaks}}
+</div>
 {% endblock %}
