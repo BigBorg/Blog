@@ -3,9 +3,14 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.utils import timezone
 
 def upload_location(instance, filename):
     return "%s/%s" % (instance.pk, filename)
+
+class ActivePostManager(models.Manager):
+    def active(self, *args, **kwargs):
+        super(ActivePostManager, self).all(draft=False, published_lte=timezone.now().date())
 
 # Create your models here.
 class Post(models.Model):
@@ -19,8 +24,12 @@ class Post(models.Model):
     width_field = models.IntegerField(default=0)
     height_field = models.IntegerField(default=0)
     content = models.TextField()
+    draft = models.BooleanField(default=False)
+    published = models.DateField(auto_now=False, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)  # auto_now triggered when model.save() called
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)  # auto_now_add triggered when object first created
+
+    objects = ActivePostManager()
 
     def __str__(self):  # __unicode__ for py2
         return self.title

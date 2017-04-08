@@ -1,5 +1,13 @@
 {% extends "posts/base.html" %}
 {% block content %}
+<div class="row">
+    <div class="col-sm-6 col-sm-push-3">
+        <form method="GET" action="">
+            <input type="text" name="q">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
 {% for obj in object_list %}
 <div class="row">
   <div class="col-sm-6 col-sm-push-3">
@@ -8,6 +16,8 @@
       <img src="{{obj.image.url}}">
       {% endif %}
       <div class="caption">
+        {% if obj.draft %} <h4 style="color:red">Stuff only: Draft</h4> {% endif %}
+        {% if obj.published > today %} <h4 style="color:red">Stuff only: Future Post</h4> {% endif %}
         <h3><a href="{{obj.get_absolute_url}}">{{obj.title}}</a>&nbsp;<small>{{obj.timestamp|timesince}} ago</small></h3>
         <p>{{obj.content|linebreaks|truncatechars:120}}</p>
         <p><a href="{{obj.get_absolute_url}}" class="btn btn-primary" role="button">View</a></p>
@@ -20,7 +30,7 @@
 <div class="pagination col-sm-push-3 col-sm-6">
     <span class="step-links">
         {% if object_list.has_previous %}
-            <a href="?page={{ object_list.previous_page_number }}">previous</a>
+            <a href="?page={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -28,7 +38,7 @@
         </span>
 
         {% if object_list.has_next %}
-            <a href="?page={{ object_list.next_page_number }}">next</a>
+            <a href="?page={{ object_list.next_page_number }}{% if request.GET.q %}&q={{request.GET.q}}{% endif %}">next</a>
         {% endif %}
     </span>
 </div>

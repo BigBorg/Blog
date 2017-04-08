@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Q
 from .models import Post
 from .forms import PostForm
 
@@ -23,12 +25,16 @@ def post_create(request):
             return HttpResponseRedirect(obj.get_absolute_url())
         else:
             messages.error(request, "Not saved.")
+            return render(request, "posts/post_form.html", context={'form': form})
     else:
         return render(request, "posts/post_form.html", context={'form': form})
 
 
 def post_detail(request, slug):
     obj = get_object_or_404(Post, slug=slug)
+    if obj.draft or not obj.published < timezone.now().date():
+        if not request.user.is_staff or not request.user.is_superuser:
+            raise Http404
     share_string = quote_plus(obj.content)
     context = {
         'title': obj.title,
@@ -39,7 +45,19 @@ def post_detail(request, slug):
 
 
 def post_list(request):
-    posts_list = Post.objects.all()
+    if request.user.is_staff or request.user.is_superuser:
+        posts_list = Post.objects.all()
+    else:
+        posts_list = Post.objects.active()
+
+    query = request.GET.get("q")
+    if query:
+        posts_list = posts_list.filter(
+            Q(title__icontains=query)|
+            Q(user__first_name__icontains=query)|
+            Q(user__last_name__icontains=query)|
+            Q(content__icontains=query)
+        )
     paginator = Paginator(posts_list, 10) # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -53,7 +71,8 @@ def post_list(request):
         posts = paginator.page(paginator.num_pages)
     context = {
         "title": "Borg's Blog",
-        "object_list": posts#.order_by("-timestamp")
+        "object_list": posts,
+        "today": timezone.now().date()
     }
     return render(request, "posts/post_list.html", context)
 

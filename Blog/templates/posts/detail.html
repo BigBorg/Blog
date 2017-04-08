@@ -5,17 +5,20 @@
     {% if obj.image %}
     <img src="{{ obj.image.url }}" class="img-responsive">
     {% endif %}
-    <h1>Title: {{obj.title}}&nbsp;<small>{{obj.timestamp}}</small></h1>
+    <h1>Title: {{obj.title}}&nbsp;{% if obj.draft %}<span style="color:red"> Draft </span>{% endif %}<small>{{obj.published}}</small></h1>
     {% if obj.user.get_full_name %}
     <p>Author: {{obj.user.get_full_name}}</p>
     {% endif %}
-{{obj.content|linebreaks}}
+
 
 <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">Share on Facebook</a>&nbsp;
 <a href="https://twitter.com/home?status={{obj.content|truncatechars:20|urlify}}%20{{request.build_absolute_uri}}">Share on Twitter</a>&nbsp;
 <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'>Share on Google+</a>&nbsp;
 <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{obj.title|urlify}}&summary={{share_string}}&source={{request.build_absolute_uri}}">Share on Linkedin</a>&nbsp;
 <a href="http://www.reddit.com/submit?url={{request.build_absolute_uri}}&title={{obj.title|urlify}}">Share on Reddit</a>
-
+    {{obj.content|linebreaks}}
+<div id="SOHUCS" sid="{{request.build_absolute_uri}}" ></div>
 </div>
+
+
 {% endblock %}
