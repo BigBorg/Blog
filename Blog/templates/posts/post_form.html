@@ -1,4 +1,7 @@
 {% extends "posts/base.html" %}
+{% block head_extra %}
+    {{form.media}}
+{% endblock %}
 {% block content %}
 <div class="col-md-6 col-md-push-3">
 <form method="POST" enctype="multipart/form-data">

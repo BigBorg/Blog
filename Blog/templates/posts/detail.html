@@ -16,7 +16,8 @@
 <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'>Share on Google+</a>&nbsp;
 <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{obj.title|urlify}}&summary={{share_string}}&source={{request.build_absolute_uri}}">Share on Linkedin</a>&nbsp;
 <a href="http://www.reddit.com/submit?url={{request.build_absolute_uri}}&title={{obj.title|urlify}}">Share on Reddit</a>
-    {{obj.content|linebreaks}}
+    <!-- Do not insert new line in the following line or markdown rendering wouldn't work properly. -->
+    <div class="markdown">{{obj.content}}</div>
 <div id="SOHUCS" sid="{{request.build_absolute_uri}}" ></div>
 </div>
 

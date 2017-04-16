@@ -19,7 +19,7 @@
         {% if obj.draft %} <h4 style="color:red">Stuff only: Draft</h4> {% endif %}
         {% if obj.published > today %} <h4 style="color:red">Stuff only: Future Post</h4> {% endif %}
         <h3><a href="{{obj.get_absolute_url}}">{{obj.title}}</a>&nbsp;<small>{{obj.timestamp|timesince}} ago</small></h3>
-        <p>{{obj.content|linebreaks|truncatechars:120}}</p>
+        <p class="markdown">{{obj.content|truncatechars:120}}</p>
         <p><a href="{{obj.get_absolute_url}}" class="btn btn-primary" role="button">View</a></p>
       </div>
     </div>
