@@ -6,9 +6,10 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.contenttypes.models import ContentType
+from comments.models import Comment
 from .models import Post
 from .forms import PostForm
-
 # Create your views here.
 
 
@@ -36,10 +37,14 @@ def post_detail(request, slug):
         if not request.user.is_staff or not request.user.is_superuser:
             raise Http404
     share_string = quote_plus(obj.content)
+    content_type = ContentType.objects.get_for_model(Post)
+    object_id = obj.id
+    comments = Comment.objects.filter(content_type=content_type, object_id=object_id)
     context = {
         'title': obj.title,
         'obj': obj,
-        'share_string': share_string
+        'share_string': share_string,
+        'comments': comments
     }
     return render(request, "posts/detail.html", context)
 
@@ -60,7 +65,7 @@ def post_list(request):
         )
     paginator = Paginator(posts_list, 10) # Show 25 contacts per page
 
-    page = request.GET.get('page')
+    page = request.GET.get('page') or 0
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:

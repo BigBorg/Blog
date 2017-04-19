@@ -6,6 +6,7 @@
     <title>{%block head_title%}Blog Index{% endblock %}</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/57027be485.js"></script>
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -39,6 +40,33 @@
             console.log(markedContent);
             $(this).html(markedContent);
         })
+        $(".post_detail_item img").each(function(){
+            $(this).addClass("img-responsive");
+        })
+
+        var titleInput = $("#id_title")
+        var contentInput = $("#id_content");
+
+        function setContent(content){
+            var markedContent = marked(content);
+            $(".preview-content").html(markedContent);
+            $(".preview-content img").each(function(){
+                $(this).addClass("img-responsive")
+            })
+        }
+
+        function setTitle(title){
+            $(".preview-title").text(titleInput.val());
+        }
+
+        titleInput.keyup(function(){
+            setTitle($(this).val());
+        })
+
+        contentInput.keyup(function(){
+            setContent(contentInput.val())
+        })
+
     })
 </script>
 </body>

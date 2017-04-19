@@ -4,13 +4,15 @@ from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+import markdown_deux
 
 def upload_location(instance, filename):
     return "%s/%s" % (instance.pk, filename)
 
 class ActivePostManager(models.Manager):
     def active(self, *args, **kwargs):
-        super(ActivePostManager, self).all(draft=False, published_lte=timezone.now().date())
+        return super(ActivePostManager, self).filter(draft=False, published__lte=timezone.now().date())
 
 # Create your models here.
 class Post(models.Model):
@@ -36,6 +38,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("posts:detail", kwargs={"slug": self.slug})
+
+    def get_markdown(self):
+        content = self.content
+        return mark_safe(markdown_deux.markdown(content))
 
     class Meta:
         ordering= ['-timestamp', '-updated']

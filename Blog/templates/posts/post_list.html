@@ -3,8 +3,12 @@
 <div class="row">
     <div class="col-sm-6 col-sm-push-3">
         <form method="GET" action="">
-            <input type="text" name="q">
-            <button type="submit">Search</button>
+            <div class="input-group col-sm-6">
+                <input class="form-control" type="text" name="q">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i>Search</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -15,11 +19,11 @@
       {% if obj.image %}
       <img src="{{obj.image.url}}">
       {% endif %}
-      <div class="caption">
+      <div class="caption post_detail_item">
         {% if obj.draft %} <h4 style="color:red">Stuff only: Draft</h4> {% endif %}
         {% if obj.published > today %} <h4 style="color:red">Stuff only: Future Post</h4> {% endif %}
         <h3><a href="{{obj.get_absolute_url}}">{{obj.title}}</a>&nbsp;<small>{{obj.timestamp|timesince}} ago</small></h3>
-        <p class="markdown">{{obj.content|truncatechars:120}}</p>
+        <p>{{obj.get_markdown|truncatechars_html:120}}</p>
         <p><a href="{{obj.get_absolute_url}}" class="btn btn-primary" role="button">View</a></p>
       </div>
     </div>

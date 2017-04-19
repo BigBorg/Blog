@@ -1,12 +1,22 @@
 {% extends "posts/base.html" %}
+{% load crispy_forms_tags %}
 {% block head_extra %}
     {{form.media}}
 {% endblock %}
 {% block content %}
-<div class="col-md-6 col-md-push-3">
+<div class="col-md-6">
+    <h1>Preview</h1>
+    <div class="content-preview">
+        <h3 class="preview-title"></h3>
+        <p class="preview-content"></p>
+    </div>
+</div>
+
+<div class="col-md-6">
+<h1>Form</h1>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" class="btn btn-primary" value="Submit">
 </form>
 </div>

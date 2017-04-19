@@ -17,8 +17,18 @@
 <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{obj.title|urlify}}&summary={{share_string}}&source={{request.build_absolute_uri}}">Share on Linkedin</a>&nbsp;
 <a href="http://www.reddit.com/submit?url={{request.build_absolute_uri}}&title={{obj.title|urlify}}">Share on Reddit</a>
     <!-- Do not insert new line in the following line or markdown rendering wouldn't work properly. -->
-    <div class="markdown">{{obj.content}}</div>
-<div id="SOHUCS" sid="{{request.build_absolute_uri}}" ></div>
+    <div class="post_detail_item">{{obj.get_markdown}}</div>
+
+    <div>
+        <p class="lead">Comments: </p>
+        {% for comment in comments %}
+            <div>
+                {{comment.content}}<br>
+                <small>{{comment.user}} | {{comment.timestamp|timesince}}</small>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
 </div>
 
 
