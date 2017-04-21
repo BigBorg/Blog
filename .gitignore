@@ -12,6 +12,8 @@ media_cdn/*
 # C extensions
 *.so
 
+Blog/.idea/*
+
 # Distribution / packaging
 .Python
 env/

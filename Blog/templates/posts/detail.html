@@ -1,5 +1,6 @@
 {% extends "posts/base.html" %}
 {% load urlify %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="col-sm-6 col-sm-push-3">
     {% if obj.image %}
@@ -21,12 +22,16 @@
 
     <div>
         <p class="lead">Comments: </p>
-        {% for comment in comments %}
-            <div>
-                {{comment.content}}<br>
-                <small>{{comment.user}} | {{comment.timestamp|timesince}}</small>
-            </div>
-            <hr>
+        <form method="POST" action=".">{% csrf_token %}
+            {{comment_form|crispy}}
+            <button class="btn btn-primary">Submit comment</button>
+        </form>
+        {% for comment in obj.comments.all %}
+        <blockquote>
+            <p>{{comment.content}}</p>
+            <footer>{{comment.user}} | {{comment.timestamp|timesince}}</footer>
+        </blockquote>
+        <hr>
         {% endfor %}
     </div>
 </div>
