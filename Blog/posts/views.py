@@ -37,7 +37,7 @@ def post_detail(request, slug):
     if obj.draft or not obj.published < timezone.now().date():
         if not request.user.is_staff or not request.user.is_superuser:
             raise Http404
-    share_string = quote_plus(obj.content)
+    share_string = quote_plus(obj.content.encode("utf-8"))
 
     initial_data = {
         'object_id' : obj.id,
@@ -50,15 +50,28 @@ def post_detail(request, slug):
         content_type = ContentType.objects.get(model=ctype)
         obj_id = form.cleaned_data.get("object_id")
         content = form.cleaned_data.get("content")
+        parent_obj = None
+        try:
+            parent_id = int(request.POST.get("parent_id"))
+        except:
+            parent_id = None
+
+        if parent_id:
+            parent_qs = Comment.objects.filter(id=parent_id)
+            if parent_qs.exists() and parent_qs.count()==1:
+                parent_obj = parent_qs.first()
+
         comment, created = Comment.objects.get_or_create(
             user = request.user,
             content_type = content_type,
             object_id = obj_id,
-            content = content
+            content = content,
+            parent = parent_obj
         )
 
         if created:
             messages.success(request,"Comment Created!")
+        return HttpResponseRedirect(comment.content_object.get_absolute_url())
 
     context = {
         'title': obj.title,

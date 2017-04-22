@@ -10,26 +10,41 @@
     {% if obj.user.get_full_name %}
     <p>Author: {{obj.user.get_full_name}}</p>
     {% endif %}
-
-
+    {{obj.num_chinese}} Chinese character{% if obj.num_chinese > 1 %}s{% endif %}, {{obj.num_english}} English word{% if obj.num_english > 1 %}s{% endif %}.<br>
+    <br>
 <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">Share on Facebook</a>&nbsp;
 <a href="https://twitter.com/home?status={{obj.content|truncatechars:20|urlify}}%20{{request.build_absolute_uri}}">Share on Twitter</a>&nbsp;
 <a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'>Share on Google+</a>&nbsp;
 <a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{obj.title|urlify}}&summary={{share_string}}&source={{request.build_absolute_uri}}">Share on Linkedin</a>&nbsp;
-<a href="http://www.reddit.com/submit?url={{request.build_absolute_uri}}&title={{obj.title|urlify}}">Share on Reddit</a>
     <!-- Do not insert new line in the following line or markdown rendering wouldn't work properly. -->
+    <br>
+    <br>
     <div class="post_detail_item">{{obj.get_markdown}}</div>
 
     <div>
         <p class="lead">Comments: </p>
         <form method="POST" action=".">{% csrf_token %}
             {{comment_form|crispy}}
-            <button class="btn btn-primary">Submit comment</button>
+            <button class="btn btn-default" type="submit">Submit comment</button>
         </form>
         {% for comment in obj.comments.all %}
         <blockquote>
             <p>{{comment.content}}</p>
-            <footer>{{comment.user}} | {{comment.timestamp|timesince}}</footer>
+            <footer>{{comment.user}} | {{comment.timestamp|timesince}} ago | {% if comment.children.count > 0 %}{{comment.children.count}} comment{% endif %}{% if comment.children.count > 1 %}s{% endif %} | <a href="#" class="comment-reply-btn">Reply</a>| <a href="{{comment.get_absolute_url}}">Thread</a></footer>
+            <div class="comment-reply">
+                {% for child_comment in comment.children %}
+                <blockquote>
+                    <p>{{child_comment.content}}</p>
+                    <footer>{{child_comment.user}} | {{child_comment.timestamp|timesince}}</footer>
+                </blockquote>
+                {% endfor %}
+
+                <form method="POST" action=".">{% csrf_token %}
+                    {{comment_form|crispy}}
+                    <input name="parent_id" value="{{comment.id}}" type="hidden">
+                    <button type="submit" class="btn btn-default">Reply</button>
+                </form>
+            </div>
         </blockquote>
         <hr>
         {% endfor %}

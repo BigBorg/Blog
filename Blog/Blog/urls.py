@@ -9,7 +9,8 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^posts/', include("posts.urls", namespace="posts"))
+    url(r'^posts/', include("posts.urls", namespace="posts")),
+    url(r'^comments/', include("comments.urls", namespace="comments"))
 ]
 
 if settings.DEBUG:

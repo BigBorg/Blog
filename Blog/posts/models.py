@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 import markdown_deux
+from .utils import count_words
 
 def upload_location(instance, filename):
     return "%s/%s" % (instance.pk, filename)
@@ -31,7 +32,8 @@ class Post(models.Model):
     published = models.DateField(auto_now=False, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)  # auto_now triggered when model.save() called
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)  # auto_now_add triggered when object first created
-
+    num_chinese = models.IntegerField(default=0)
+    num_english = models.IntegerField(default=0)
     objects = ActivePostManager()
 
     def __str__(self):  # __unicode__ for py2
@@ -72,5 +74,8 @@ def create_slug(instance, new_slug=None):
 def pre_save_subscriber(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
+    chinese, english = count_words(instance.get_markdown())
+    instance.num_chinese = chinese
+    instance.num_english = english
 
 pre_save.connect(pre_save_subscriber, Post)
