@@ -1,6 +1,11 @@
 {% extends "posts/base.html" %}
 {% load urlify %}
 {% load crispy_forms_tags %}
+
+{% block post_detail_link %}
+<li>{{obj.title}}</li>
+{% endblock %}
+
 {% block content %}
 <div class="col-sm-6 col-sm-push-3">
     {% if obj.image %}
@@ -23,27 +28,36 @@
 
     <div>
         <p class="lead">Comments: </p>
+        {% if request.user.is_authenticated %}
         <form method="POST" action=".">{% csrf_token %}
             {{comment_form|crispy}}
             <button class="btn btn-default" type="submit">Submit comment</button>
         </form>
+        {% else %}
+        <p>You must log in to comment.</p>
+        {% endif %}
+
         {% for comment in obj.comments.all %}
         <blockquote>
             <p>{{comment.content}}</p>
-            <footer>{{comment.user}} | {{comment.timestamp|timesince}} ago | {% if comment.children.count > 0 %}{{comment.children.count}} comment{% endif %}{% if comment.children.count > 1 %}s{% endif %} | <a href="#" class="comment-reply-btn">Reply</a>| <a href="{{comment.get_absolute_url}}">Thread</a></footer>
+            <footer>{{comment.user}} | {{comment.timestamp|timesince}} ago | {% if comment.children.count > 0 %}{{comment.children.count}} comment{% endif %}{% if comment.children.count > 1 %}s{% endif %} | <a href="#" class="comment-reply-btn">Reply</a>| <a href="{{comment.get_absolute_url}}">Thread</a>{% if comment.user == request.user %} | <a href="{% url 'comments:delete' comment.id %}">Delete</a>{% endif %}</footer>
             <div class="comment-reply">
                 {% for child_comment in comment.children %}
                 <blockquote>
                     <p>{{child_comment.content}}</p>
-                    <footer>{{child_comment.user}} | {{child_comment.timestamp|timesince}}</footer>
+                    <footer>{{child_comment.user}} | {{child_comment.timestamp|timesince}}{% if comment.user == request.user %} | <a href="{% url 'comments:delete' child_comment.id %}">Delete</a>{% endif %}</footer>
                 </blockquote>
                 {% endfor %}
 
+                {% if request.user.is_authenticated %}
                 <form method="POST" action=".">{% csrf_token %}
                     {{comment_form|crispy}}
                     <input name="parent_id" value="{{comment.id}}" type="hidden">
                     <button type="submit" class="btn btn-default">Reply</button>
                 </form>
+                {% else %}
+                <p>You must log in to comment.</p>
+                {% endif %}
             </div>
         </blockquote>
         <hr>

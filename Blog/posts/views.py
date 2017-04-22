@@ -1,8 +1,9 @@
 from urllib import quote_plus
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
+from django.contrib.auth.models import AnonymousUser
 from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
@@ -45,7 +46,9 @@ def post_detail(request, slug):
     }
 
     form = CommentForm(request.POST or None, initial=initial_data)
-    if form.is_valid():
+    if form.is_valid() and request.user.is_authenticated():
+        if isinstance(request.user, AnonymousUser):
+            return HttpResponseForbidden("<h1>You need to log in</h1>")
         ctype = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=ctype)
         obj_id = form.cleaned_data.get("object_id")

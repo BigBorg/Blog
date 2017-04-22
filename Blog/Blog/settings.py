@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_URL = "/accounts/login"
 # Application definition
 
 INSTALLED_APPS = (
@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'pagedown',
     # Local
+    'accounts',
     'comments',
     'posts',
 )

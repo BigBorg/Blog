@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from posts.views import post_list
 
 urlpatterns = [
     # Examples:
@@ -10,7 +11,9 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^posts/', include("posts.urls", namespace="posts")),
-    url(r'^comments/', include("comments.urls", namespace="comments"))
+    url(r'^comments/', include("comments.urls", namespace="comments")),
+    url(r'^accounts/', include("accounts.urls", namespace="accounts")),
+    url(r"^$", post_list)
 ]
 
 if settings.DEBUG:

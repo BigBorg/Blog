@@ -19,11 +19,16 @@
                 </blockquote>
                 {% endfor %}
 
+                {% if request.user.is_authenticated %}
                 <form method="POST" action=".">{% csrf_token %}
                     {{comment_form|crispy}}
                     <input name="parent_id" value="{{comment.id}}" type="hidden">
                     <button type="submit" class="btn btn-default">Reply</button>
                 </form>
+                {% else %}
+                <p>You must log in to comment.</p>
+                {% endif %}
+
             </div>
         </blockquote>
     </div>

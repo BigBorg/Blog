@@ -1,19 +1,39 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.core.urlresolvers import reverse_lazy
 from models import Comment
 from forms import CommentForm
 # Create your views here.
 
+@login_required()
+def comment_delete(request, id):
+    obj = get_object_or_404(Comment,id=id)
+    if request.method=='POST':
+        if obj.user != request.user:
+            return HttpResponseForbidden("<h1>This comment was not created by you!</h1>")
+        post_url = obj.content_object.get_absolute_url()
+        obj.delete()
+        messages.success(request, "Comment deleted!")
+        return HttpResponseRedirect(post_url)
+
+    context = {
+        "object":obj
+    }
+    return render(request, "comments/delete.html",context)
+
 def comment_thread(request, id):
     comment = get_object_or_404(Comment, id=id)
+    if not comment.is_parent:
+        comment = comment.parent
     initial_data = {
         'content_type':comment.content_type,
         'object_id':comment.object_id
     }
     form = CommentForm(request.POST or None, initial=initial_data)
-    if form.is_valid():
+    if form.is_valid() and request.user.is_authenticated():
         ctype = form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=ctype)
         obj_id = form.cleaned_data.get("object_id")
