@@ -3,12 +3,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from django.core.urlresolvers import reverse_lazy
 from models import Comment
 from forms import CommentForm
 # Create your views here.
 
-@login_required()
+@login_required
 def comment_delete(request, id):
     obj = get_object_or_404(Comment,id=id)
     if request.method=='POST':

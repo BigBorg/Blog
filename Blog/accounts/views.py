@@ -6,7 +6,6 @@ from django.contrib.auth import (
 )
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from .forms import UserLoginForm, UserRegistrationForm
 
 # Create your views here.
@@ -42,7 +41,7 @@ def register_view(request):
         next = request.GET.get("next")
         if next:
             return HttpResponseRedirect(next)
-        return HttpResponseRedirect(request,"/")
+        return HttpResponseRedirect("/")
     return render(request, "accounts/form.html", context)
 
 def logout_view(request):

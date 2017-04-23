@@ -40,7 +40,7 @@
         {% for comment in obj.comments.all %}
         <blockquote>
             <p>{{comment.content}}</p>
-            <footer>{{comment.user}} | {{comment.timestamp|timesince}} ago | {% if comment.children.count > 0 %}{{comment.children.count}} comment{% endif %}{% if comment.children.count > 1 %}s{% endif %} | <a href="#" class="comment-reply-btn">Reply</a>| <a href="{{comment.get_absolute_url}}">Thread</a>{% if comment.user == request.user %} | <a href="{% url 'comments:delete' comment.id %}">Delete</a>{% endif %}</footer>
+            <footer>{{comment.user}} | {{comment.timestamp|timesince}} ago{% if comment.children.count > 0 %} | {{comment.children.count}} comment{% endif %}{% if comment.children.count > 1 %}s{% endif %} | <a href="#" class="comment-reply-btn">Reply</a> | <a href="{{comment.get_absolute_url}}">Thread</a>{% if comment.user == request.user %} | <a href="{% url 'comments:delete' comment.id %}">Delete</a>{% endif %}</footer>
             <div class="comment-reply">
                 {% for child_comment in comment.children %}
                 <blockquote>
