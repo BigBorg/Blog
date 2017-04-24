@@ -3,8 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseForbidden
-from models import Comment
-from forms import CommentForm
+from .models import Comment
+from .forms import CommentForm
 # Create your views here.
 
 @login_required

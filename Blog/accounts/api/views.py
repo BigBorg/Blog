@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import (
     AllowAny
 )
-from serializers import UserCreateSerializer, UserLoginSerializer
+from .serializers import UserCreateSerializer, UserLoginSerializer
 from posts.api.permissions import IsOwnerOrReadOnly
 
 User = get_user_model()

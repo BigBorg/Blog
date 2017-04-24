@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+import json
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+ALLOWED_HOSTS = ['*']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -24,9 +26,7 @@ with open("secret.txt","r") as f:
     SECRET_KEY = f.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 LOGIN_URL = "/accounts/login"
 # Application definition
@@ -85,15 +85,9 @@ WSGI_APPLICATION = 'Blog.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': 'MYSQL.cnf',
-        },
-    }
-}
-
+DATABASES = None
+with open("db_password.txt", "r") as f:
+    DATABASES = json.loads(f.read())
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import PostListAPIView, PostDetailAPIView, PostDeleteAPIView, PostUpdateAPIView, PostCreateAPIView
+from .views import PostListAPIView, PostDetailAPIView, PostDeleteAPIView, PostUpdateAPIView, PostCreateAPIView
 
 urlpatterns = [
     url(r"^$", PostListAPIView.as_view(), name="list"),

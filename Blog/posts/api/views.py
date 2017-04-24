@@ -7,16 +7,16 @@ from rest_framework.generics import (
     RetrieveUpdateAPIView
 )
 from rest_framework.filters import OrderingFilter
-from paginations import PostLimitOffsetPagination
+from .paginations import PostLimitOffsetPagination
 from rest_framework.permissions import (
     AllowAny,
     IsAdminUser,
 )
-from serializers import (
+from .serializers import (
     PostListSerializer, PostDetailSerializer, PostCreateUpdateSerializer
 )
 from posts.models import Post
-from permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly
 
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()

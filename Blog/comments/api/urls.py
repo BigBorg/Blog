@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import CommentListAPIView, CommentDetailAPIView, CommentCreateAPIView, CommentEditAPIView
+from .views import CommentListAPIView, CommentDetailAPIView, CommentCreateAPIView, CommentEditAPIView
 
 urlpatterns = [
     url(r"^$", CommentListAPIView.as_view(), name="list"),

@@ -9,7 +9,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import (
     AllowAny,
 )
-from serializers import CommentListSerializer, CommentDetailSerializer, create_comment_serializer
+from .serializers import CommentListSerializer, CommentDetailSerializer, create_comment_serializer
 from posts.api.paginations import PostLimitOffsetPagination
 from comments.models import Comment
 from posts.api.permissions import IsOwnerOrReadOnly
