@@ -6,11 +6,32 @@
 <li>{{obj.title}}</li>
 {% endblock %}
 
+{% block bodyheader %}
+{% if obj.image %}
+<!--header-->
+<div class="header" style="background-image:url({{ obj.image.url }});">
+    <div class="container">
+        <div class="row" style="padding-top:100px !important;padding-bottom:100px !important;"></div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <h1 align="center">{{obj.title}}</h1>
+                    <p align="center">Author: {{obj.user.username}}&nbsp;<small>{{obj.published}}</small></p>
+                </div>
+        </div>
+    </div>
+</div>
+<!--header-->
+{% endif %}
+{% endblock %}
+
 {% block content %}
-<div class="col-sm-6 col-sm-push-3">
-    {% if obj.image %}
-    <img src="{{ obj.image.url }}" class="img-responsive">
+<div class="col-sm-2">
+    {% if request.user = obj.user %}
+        <a class="btn btn-info" href="{% url 'posts:update' slug=obj.slug %}">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-danger" href="{% url 'posts:delete' slug=obj.slug %}">Delete</a>
     {% endif %}
+</div>
+<div class="col-sm-8">
     <h1>Title: {{obj.title}}&nbsp;{% if obj.draft %}<span style="color:red"> Draft </span>{% endif %}<small>{{obj.published}}</small></h1>
     {% if obj.user.get_full_name %}
     <p>Author: {{obj.user.get_full_name}}</p>

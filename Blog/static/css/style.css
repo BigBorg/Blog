@@ -6,3 +6,18 @@
 .comment-reply{
     display:none
 }
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.header{
+    height:100% !important;
+    background-size:cover;
+    color:#fff;
+    font-size:18px;
+}
+
+.header h1{
+    font-size:80px;
+}

@@ -1,8 +1,8 @@
 {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li {% if message.tags %} class="{{messages.tags}}" {% endif %}>{% if 'html_safe' in message.tags %}{{message|safe}}
-        {% else %}{{message}}{% endif %}</li>
-        {% endfor %}
-    </ul>
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p {% if message.tags %} class="{{messages.tags}}" {% endif %}>{% if 'html_safe' in message.tags %}{{message|safe}}{% else %}{{message}}{% endif %}</p>
+        </div>
+    {% endfor %}
 {% endif %}

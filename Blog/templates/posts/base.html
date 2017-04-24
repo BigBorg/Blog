@@ -13,11 +13,58 @@
     <link rel='stylesheet' href='{% static "css/style.css" %}'>
     {% block head_extra %}{% endblock %}
 </head>
-<br>
 <body>
-<div class="messages">
+<div class="messages" style="padding-top:52px;">
 {% include "posts/messages.html" %}
 </div>
+<!--导航-->
+<nav class="navbar navbar-default navvar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{%url 'posts:list'%}">Borg's Blog</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{%url 'posts:list'%}">Home <span class="sr-only">(current)</span></a></li>
+        <!--<li class="dropdown">-->
+          <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+          <!--<ul class="dropdown-menu">-->
+            <!--<li><a href="#">Action</a></li>-->
+            <!--<li><a href="#">Another action</a></li>-->
+            <!--<li><a href="#">Something else here</a></li>-->
+            <!--<li role="separator" class="divider"></li>-->
+            <!--<li><a href="#">Separated link</a></li>-->
+            <!--<li role="separator" class="divider"></li>-->
+            <!--<li><a href="#">One more separated link</a></li>-->
+          <!--</ul>-->
+        <!--</li>-->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_stuff or request.user.is_admin or request.user.is_superuser %}
+          <li><a href="{% url 'posts:create' %}">Create Post</a></li>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+        <li><a href="{% url 'accounts:register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!--导航-->
+{% block bodyheader %}
+{% endblock %}
 
 <div class="container">
     <ol class="breadcrumb">
@@ -27,17 +74,85 @@
         {% block post_detail_link %}
         {% endblock %}
 
-        {% if request.user.is_authenticated %}
-        <li class="pull-right"><a href="{% url 'accounts:logout' %}">Logout</a></li>
-        {% else %}
-        <li class="pull-right"><a href="{% url 'accounts:login' %}">Login</a></li>
-        <li class="pull-right"><a href="{% url 'accounts:register' %}">Register</a></li>
-        {% endif %}
     </ol>
 
     {% block content %}
+    <!--&lt;!&ndash;carousel&ndash;&gt;-->
+    <!--<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">-->
+  <!--&lt;!&ndash; Indicators &ndash;&gt;-->
+  <!--<ol class="carousel-indicators">-->
+    <!--<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>-->
+    <!--<li data-target="#carousel-example-generic" data-slide-to="1"></li>-->
+    <!--<li data-target="#carousel-example-generic" data-slide-to="2"></li>-->
+  <!--</ol>-->
+
+  <!--&lt;!&ndash; Wrapper for slides &ndash;&gt;-->
+  <!--<div class="carousel-inner" role="listbox">-->
+    <!--<div class="item active">-->
+      <!--<div class="jumbotron">-->
+        <!--<h1>Borg</h1>-->
+        <!--<p>A python programmer.</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="jumbotron">-->
+        <!--<h1>Borg</h1>-->
+        <!--<p>A python programmer.</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="item">-->
+        <!--<div class="jumbotron">-->
+        <!--<h1>Borg</h1>-->
+        <!--<p>A python programmer.</p>-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">-->
+    <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+    <!--<span class="sr-only">Previous</span>-->
+  <!--</a>-->
+  <!--<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">-->
+    <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+    <!--<span class="sr-only">Next</span>-->
+  <!--</a>-->
+<!--</div>-->
+    <!--&lt;!&ndash;carousel&ndash;&gt;-->
     {% endblock %}
 </div>
+
+    {% block footer %}
+        <div class="footer">
+            <div class="jumbotron">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-4 col-md-10 col-md-offset-3 col-sm-offset-2">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a target="_blank" href="https://github.com/BigBorg">
+                                        Github
+                                    </a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href="mailto:lbgandthesun@126.com">Email</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a target="_blank" href="https://www.zhihu.com/people/bigborg">知乎</a>
+                                </div>
+                            </div>
+                            <p class="copyright text-muted">
+                                Copyright © Borg's Blog 2017
+                                <br>
+                                Blog system by <a href="https://www.github.com/bigborg">Borg</a> |
+                                <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=bigborg&amp;repo=Blog">
+                                </iframe>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
 <script
 			  src="http://code.jquery.com/jquery-3.2.1.min.js"
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
