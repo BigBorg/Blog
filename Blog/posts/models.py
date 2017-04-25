@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 import markdown_deux
+from unidecode import unidecode
 from .utils import count_words
 
 def upload_location(instance, filename):
@@ -70,7 +71,7 @@ class Post(models.Model):
         ordering= ['-timestamp', '-updated']
 
 def create_slug(instance, new_slug=None):
-    slug = slugify(instance.title)
+    slug = slugify(unidecode(instance.title))
     if new_slug is not None:
         slug = new_slug
     qs = Post.objects.filter(slug=slug).order_by("-id")
