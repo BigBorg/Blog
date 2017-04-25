@@ -16,7 +16,7 @@ from comments.models import Comment
 
 
 def post_create(request):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
     form = PostForm(request.POST or None, request.FILES or None)  # or None : Remember this!
     if request.method == 'POST':
@@ -36,7 +36,7 @@ def post_create(request):
 def post_detail(request, slug):
     obj = get_object_or_404(Post, slug=slug)
     if obj.draft or not obj.published < timezone.now().date():
-        if not request.user.is_staff or not request.user.is_superuser:
+        if not request.user.is_staff and not request.user.is_superuser:
             raise Http404
     share_string = quote_plus(obj.content.encode("utf-8"))
 
@@ -118,7 +118,7 @@ def post_list(request):
     return render(request, "posts/post_list.html", context)
 
 def post_update(request, slug):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
     obj = get_object_or_404(Post, slug=slug)
     form = PostForm(request.POST or None, request.FILES or None, instance=obj)
@@ -136,7 +136,7 @@ def post_update(request, slug):
     return render(request,"posts/post_form.html",context)
 
 def post_delete(request, slug):
-    if not request.user.is_staff or not request.user.is_superuser:
+    if not request.user.is_staff and not request.user.is_superuser:
         raise Http404
     obj = get_object_or_404(Post, slug=slug)
     obj.delete()
