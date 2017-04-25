@@ -68,7 +68,7 @@ class Post(models.Model):
         return content_type
 
     class Meta:
-        ordering= ['-timestamp', '-updated']
+        ordering= ['-published', '-updated']
 
 def create_slug(instance, new_slug=None):
     slug = slugify(unidecode(instance.title))
