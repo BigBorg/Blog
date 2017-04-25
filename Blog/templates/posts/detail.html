@@ -1,5 +1,6 @@
 {% extends "posts/base.html" %}
 {% load urlify %}
+{% load staticfiles %}
 {% load crispy_forms_tags %}
 
 {% block post_detail_link %}
@@ -7,11 +8,10 @@
 {% endblock %}
 
 {% block bodyheader %}
-{% if obj.image %}
 <!--header-->
-<div class="header" style="background-image:url({{ obj.image.url }});">
+<div class="header" style="background-image:url({% if obj.image %}{{ obj.image.url }}{% else %}{% static 'image/post-bg-2016.jpg' %}{% endif %});height:417px !important;">
     <div class="container">
-        <div class="row" style="padding-top:100px !important;padding-bottom:100px !important;"></div>
+        <div class="row" style="padding-top:35px !important;padding-bottom:100px !important;"></div>
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <h1 align="center">{{obj.title}}</h1>
@@ -21,7 +21,6 @@
     </div>
 </div>
 <!--header-->
-{% endif %}
 {% endblock %}
 
 {% block content %}

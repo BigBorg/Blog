@@ -10,7 +10,12 @@ import markdown_deux
 from .utils import count_words
 
 def upload_location(instance, filename):
-    return "%s/%s" % (instance.pk, filename)
+    PostModel = instance.__class__
+    try:
+        new_id = PostModel.objects.order_by("id").last().id + 1
+    except:
+        new_id = 1
+    return "%s/%s" % (new_id, filename)
 
 class ActivePostManager(models.Manager):
     def active(self, *args, **kwargs):
