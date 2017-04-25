@@ -35,7 +35,7 @@ def post_create(request):
 
 def post_detail(request, slug):
     obj = get_object_or_404(Post, slug=slug)
-    if obj.draft or not obj.published < timezone.now().date():
+    if obj.draft or not obj.published <= timezone.now().date():
         if not request.user.is_staff and not request.user.is_superuser:
             raise Http404
     share_string = quote_plus(obj.content.encode("utf-8"))
