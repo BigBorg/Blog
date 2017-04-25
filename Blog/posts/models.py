@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
-import markdown_deux
+from markdown2 import markdown
 from unidecode import unidecode
 from .utils import count_words
 
@@ -53,7 +53,7 @@ class Post(models.Model):
 
     def get_markdown(self):
         content = self.content
-        return mark_safe(markdown_deux.markdown(content))
+        return mark_safe(markdown(content))
 
     @property
     def comments(self):

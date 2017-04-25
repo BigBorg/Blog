@@ -101,7 +101,7 @@ def post_list(request):
         )
     paginator = Paginator(posts_list, 10) # Show 25 contacts per page
 
-    page = request.GET.get('page') or 0
+    page = request.GET.get('page') or 1
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
