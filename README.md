@@ -1,5 +1,5 @@
 # Blog
-My blog using py3, Django1.9
+My blog using py3, Django1.9. Checkout how it works: [bigborg.top](http://www.bigborg.top)
 
 # Installation
 ## Step1: Virtual Environment  
