@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_delete
 from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -86,4 +86,9 @@ def pre_save_subscriber(sender, instance, *args, **kwargs):
     instance.num_chinese = chinese
     instance.num_english = english
 
+def post_delete_subscriber(sender, instance, *args, **kwargs):
+    if instance.image:
+        instance.image.delete(False)
+
 pre_save.connect(pre_save_subscriber, Post)
+post_delete.connect(post_delete_subscriber, Post)
