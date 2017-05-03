@@ -3,6 +3,8 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
+{% block head_title %}{{obj.title}}{% endblock %}
+
 {% block post_detail_link %}
 <li>{{obj.title}}</li>
 {% endblock %}
