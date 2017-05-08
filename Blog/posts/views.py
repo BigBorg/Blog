@@ -2,7 +2,6 @@ from urllib.parse import quote_plus
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
 from django.contrib.auth.models import AnonymousUser
 from django.contrib import messages
 from django.utils import timezone

@@ -12,18 +12,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import json
+from .private_settings import *
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 ALLOWED_HOSTS = ['*']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-with open("secret.txt","r") as f:
-    SECRET_KEY = f.read()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -83,12 +78,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Blog.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-DATABASES = None
-with open("db_password.txt", "r") as f:
-    DATABASES = json.loads(f.read())
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -131,3 +120,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
 }
+
+EMAIL_ACTIVATION_TEMPLATE = '''
+<html><head></head>
+    <p>Dear {username}:</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;Please confirm your email address by clicking: <a href={activation_url}> Click Here </a>. If you have not been registering an account in bigborg.top, just ignore this email.</p>
+</html>
+'''
