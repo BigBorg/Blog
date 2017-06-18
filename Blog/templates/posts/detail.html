@@ -39,10 +39,8 @@
     {% endif %}
     {{obj.num_chinese}} Chinese character{% if obj.num_chinese > 1 %}s{% endif %}, {{obj.num_english}} English word{% if obj.num_english > 1 %}s{% endif %}.<br>
     <br>
-<a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">Share on Facebook</a>&nbsp;
-<a href="https://twitter.com/home?status={{obj.content|truncatechars:20|urlify}}%20{{request.build_absolute_uri}}">Share on Twitter</a>&nbsp;
-<a href='https://plus.google.com/share?url={{request.build_absolute_uri}}'>Share on Google+</a>&nbsp;
-<a href="https://www.linkedin.com/shareArticle?mini=true&url={{request.build_absolute_uri}}&title={{obj.title|urlify}}&summary={{share_string}}&source={{request.build_absolute_uri}}">Share on Linkedin</a>&nbsp;
+    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a></div>
+    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","weixin","linkedin","fbook","twi"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
     <!-- Do not insert new line in the following line or markdown rendering wouldn't work properly. -->
     <br>
     <br>
