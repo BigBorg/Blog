@@ -13,7 +13,8 @@ source activate web3
 ```
 
 ## Step2: Configuration  
-Go to the file Blog/Blog/private_settings.py and customize your setting. The variables are self-explanatory.
+ - Go to the file Blog/Blog/private_settings.py and customize your setting. The variables are self-explanatory.  
+ - Remove the **baidu-site-verification** meta line in the file Blog/Blog/templates/posts/base.html since the code is just for  myself.
 
 ## Step3: Mysql Database  
 Remember to create database and database user in mysql.
