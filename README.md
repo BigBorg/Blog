@@ -20,7 +20,9 @@ source activate web3
 Remember to create database and database user in mysql.
 
 ## Celery
-You need to start celery worker process so that the blog could send activation email asynchronously.
+Celery is used to send account activation email asynchronously.
+#### redis
+To run celery, you need to deploy redis first. Please refer to redis official website for instructions. When you get redis running, you could start celery with the following command.
 ```buildoutcfg
 celery -A Blog worker
 ```

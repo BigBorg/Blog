@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models.signals import pre_save, post_delete
 from django.utils.text import slugify
 from django.utils import timezone
@@ -24,7 +24,7 @@ class ActivePostManager(models.Manager):
 
 # Create your models here.
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1)
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True, null=True)
     image = models.ImageField(null=True, blank=True,

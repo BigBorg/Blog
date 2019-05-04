@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from accounts import serializer
 from django.db import models
 from django.conf import settings
@@ -7,7 +7,7 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL # it's a string...
 
 class Account(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, models.PROTECT)
     email_activated = models.BooleanField(default=False)
 
     def get_email_activation_url(self):

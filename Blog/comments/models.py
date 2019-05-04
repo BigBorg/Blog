@@ -2,13 +2,13 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 class CommentManager(models.Manager):
     def all(self):
-        return super(CommentManager,self).filter(parent=None)
+        return super(CommentManager, self).filter(parent=None)
 
     def filter_by_instance(self,instance):
         content_type = ContentType.objects.get_for_model(instance.__class__)
@@ -34,11 +34,11 @@ class CommentManager(models.Manager):
 
 # Create your models here.
 class Comment(models.Model):
-    user        = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    parent = models.ForeignKey("self", blank=True, null=True)
+    parent = models.ForeignKey("self", on_delete=models.PROTECT, blank=True, null=True)
 
     content     = models.TextField()
     timestamp   = models.DateTimeField(auto_now_add=True)
