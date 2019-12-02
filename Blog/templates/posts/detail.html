@@ -27,7 +27,7 @@
 
 {% block content %}
 <div class="col-sm-2">
-    {% if request.user = obj.user %}
+    {% if request.user == obj.user %}
         <a class="btn btn-info" href="{% url 'posts:update' slug=obj.slug %}">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a class="btn btn-danger" href="{% url 'posts:delete' slug=obj.slug %}">Delete</a>
     {% endif %}
