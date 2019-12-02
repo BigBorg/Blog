@@ -10,6 +10,7 @@ from markdown2 import markdown
 from unidecode import unidecode
 from .utils import count_words
 
+
 def upload_location(instance, filename):
     PostModel = instance.__class__
     try:
@@ -18,15 +19,17 @@ def upload_location(instance, filename):
         new_id = 1
     return "%s/%s" % (new_id, filename)
 
+
 class ActivePostManager(models.Manager):
     def active(self, *args, **kwargs):
         return super(ActivePostManager, self).filter(draft=False, published__lte=timezone.now().date())
+
 
 # Create your models here.
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1)
     title = models.CharField(max_length=120)
-    slug = models.SlugField(unique=True, null=True)
+    slug = models.SlugField(unique=True, null=True, max_length=120)
     image = models.ImageField(null=True, blank=True,
                               upload_to=upload_location,
                               width_field="width_field",
@@ -37,7 +40,8 @@ class Post(models.Model):
     draft = models.BooleanField(default=False)
     published = models.DateField(auto_now=False, auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)  # auto_now triggered when model.save() called
-    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)  # auto_now_add triggered when object first created
+    timestamp = models.DateTimeField(auto_now=False,
+                                     auto_now_add=True)  # auto_now_add triggered when object first created
     num_chinese = models.IntegerField(default=0)
     num_english = models.IntegerField(default=0)
     objects = ActivePostManager()
@@ -68,7 +72,8 @@ class Post(models.Model):
         return content_type
 
     class Meta:
-        ordering= ['-published', '-updated']
+        ordering = ['-published', '-updated']
+
 
 def create_slug(instance, new_slug=None):
     slug = slugify(unidecode(instance.title))
@@ -77,8 +82,9 @@ def create_slug(instance, new_slug=None):
     qs = Post.objects.filter(slug=slug).order_by("-id")
     if qs.exists():
         new_slug = "%s-%s" % (slug, qs.first().id)
-        return create_slug(instance,new_slug)
+        return create_slug(instance, new_slug)
     return slug
+
 
 def pre_save_subscriber(sender, instance, *args, **kwargs):
     if not instance.slug:
@@ -87,9 +93,11 @@ def pre_save_subscriber(sender, instance, *args, **kwargs):
     instance.num_chinese = chinese
     instance.num_english = english
 
+
 def post_delete_subscriber(sender, instance, *args, **kwargs):
     if instance.image:
         instance.image.delete(False)
+
 
 pre_save.connect(pre_save_subscriber, Post)
 post_delete.connect(post_delete_subscriber, Post)
